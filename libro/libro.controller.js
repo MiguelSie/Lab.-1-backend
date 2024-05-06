@@ -30,17 +30,17 @@ function updateLibro(datos) {
     const { _id, ...cambios } = datos;
 
     // hacer llamado a base de datos con el filtro de tipo
-    const libroCreado = updateLibroMongo(_id, cambios);
+    const libroAct = updateLibroMongo(_id, cambios);
 
-    return libroCreado;
+    return libroAct;
 }
 
 function deleteLibro(id) {
 
     // hacer llamado a base de datos con el filtro de tipo
-    const libroCreado = deleteLibroMongo(id);
+    const libroElim = deleteLibroMongo(id);
 
-    return libroCreado;
+    return libroElim;
 }
 
 module.exports = {
