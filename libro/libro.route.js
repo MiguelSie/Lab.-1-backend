@@ -7,7 +7,11 @@ async function GetLibros(req, res) {
     try {
         // llamada a controlador con los filtros
         const resultadosBusqueda = await readLibroConFiltros(req.query);
-
+        if (resultadosBusqueda.resultados.length === 0) {
+            res.status(404).json({
+                mensaje: "No se encontraron resultados. 😢"
+            })
+        }
         res.status(200).json({
             ...resultadosBusqueda
         })
@@ -47,8 +51,12 @@ async function PatchLibros(req, res) {
 async function DeleteLibros(req, res) {
     try {
         // llamada a controlador con los datos
-        deleteLibro(req.params.id);
-
+        libro = deleteLibro(req.params.id);
+        if (libro === null || libro.length === 0) {
+            res.status(404).json({
+                mensaje: "No se encontro el libro. 😢"
+            })
+        }
         res.status(200).json({
             mensaje: "Exito. 👍"
         })

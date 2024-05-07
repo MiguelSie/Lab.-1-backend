@@ -25,7 +25,9 @@ async function updateLibroMongo(id, cambios) {
 }
 
 async function deleteLibroMongo(id) {
-    const resultado = await Libro.findByIdAndDelete(id);
+    const update = { borrado: Date.now(), actualizacion: Date.now() };
+
+    const resultado = await Libro.findOneAndUpdate({_id : id, borrado: null}, update, {new: true,});
     
     return resultado;
 }

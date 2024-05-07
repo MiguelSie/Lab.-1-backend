@@ -6,9 +6,11 @@ const schemaLibro = new mongoose.Schema({
     editorial: {type: String}, 
     autor: {type: String, required: true}, //Podría no ser required?
     nombre: {type: String, required: true},
+    creacion: {type: Date, default: Date.now},
+    actualizacion: {type: Date, default: Date.now},
+    borrado: {type: Date, default: null}
   }, {
     versionKey: false,
-    timestamps: true
 });
   
 const Model = mongoose.model('Libro', schemaLibro);
