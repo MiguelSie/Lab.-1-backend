@@ -11,6 +11,7 @@ const schemaLibro = new mongoose.Schema({
     borrado: {type: Date, default: null}
   }, {
     versionKey: false,
+    //Posiblemente activar los timestamps y quitar las fechas de creacion y actualizacion
 });
   
 const Model = mongoose.model('Libro', schemaLibro);

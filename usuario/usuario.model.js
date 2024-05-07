@@ -5,7 +5,7 @@ const schemaUsuario = new mongoose.Schema({
     apellido: {type: String, required: true},
     usuario: {type: String, required: true},
     pwd: {type: String, required: true},
-    
+    // implementar pedidos o libros pertenecientes a él
     creacion: {type: Date, default: Date.now},
     actualizacion: {type: Date, default: Date.now},
     borrado: {type: Date, default: null}
