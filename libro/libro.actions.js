@@ -19,22 +19,21 @@ async function getLibroIdMongo(id) {
 
 }
 
-async function createLibroMongo(datos) {
-    const libroCreado = await Libro.create(datos);
+async function createLibroMongo(id, datos) {
+    const libroCreado = await Libro.create({...datos, idUsuario: id});
 
     return libroCreado;
 }
 
-async function updateLibroMongo(id, cambios) {
-    const resultado = await Libro.findOneAndUpdate({_id: id, borrado: null}, cambios, {new: true});
+async function updateLibroMongo(id, cambios, idUsuario) {
+    const resultado = await Libro.findOneAndUpdate({_id: id, borrado: null, idUsuario: idUsuario}, cambios, {new: true});
 
     return resultado
 }
 
-async function deleteLibroMongo(id) {
+async function deleteLibroMongo(id, idUsuario) {
     const update = { borrado: Date.now() };
-
-    const resultado = await Libro.findOneAndUpdate({_id : id, borrado: null}, update, {new: true,});
+    const resultado = await Libro.findOneAndUpdate({_id : id, borrado: null, idUsuario: idUsuario}, update, {new: true,});
     
     return resultado;
 }

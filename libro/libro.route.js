@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const { readLibroConFiltros, readLibroPorId, createLibro, updateLibro, deleteLibro } = require("./libro.controller");
-const { respondWithError } = require('../utils/functions');
+const authenticateToken = require('../utils/authToken');
 
 async function GetLibros(req, res) {
     try {
@@ -30,11 +30,11 @@ async function GetLibro(req, res) {
     }
 }
 
-// Recuerda añadir que se necesita el id del usuario que crea el libro
+
 async function PostLibro(req, res) {
     try {
         // llamada a controlador con los datos
-        await createLibro(req.body);
+        await createLibro(req.usuario._id, req.body);
 
         res.status(200).json({
             mensaje: "Exito. 👍"
@@ -44,12 +44,11 @@ async function PostLibro(req, res) {
     }
 }
 
-
+// Implementar que retorne status 500 si se intenta modificar siendo una id de libro diferente a la del modelo
 async function PatchLibros(req, res) {
     try {
         // llamada a controlador con los datos
-        updateLibro(req.body);
-
+        updateLibro(req.body, req.usuario._id);
         res.status(200).json({
             mensaje: "Exito. 👍" 
         })
@@ -62,7 +61,7 @@ async function PatchLibros(req, res) {
 async function DeleteLibros(req, res) {
     try {
         // llamada a controlador con los datos
-        deleteLibro(req.params.id);
+        deleteLibro(req.params.id, req.usuario._id);
 
         res.status(200).json({
             mensaje: "Exito. 👍"
@@ -74,9 +73,9 @@ async function DeleteLibros(req, res) {
 
 router.get("/:id", GetLibro);
 router.get("/", GetLibros);
-router.post("/", PostLibro);
-router.patch("/", PatchLibros);
-router.delete("/:id", DeleteLibros);
+router.post("/", authenticateToken, PostLibro);
+router.patch("/", authenticateToken, PatchLibros);
+router.delete("/:id", authenticateToken, DeleteLibros);
 
 
 module.exports = router;

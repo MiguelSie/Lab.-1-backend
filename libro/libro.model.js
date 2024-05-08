@@ -6,7 +6,7 @@ const schemaLibro = new mongoose.Schema({
     editorial: {type: String, required: true}, 
     autor: {type: String, required: true}, 
     nombre: {type: String, required: true},
-    // Añadir campo de id del creador
+    idUsuario: {type: mongoose.Schema.Types.ObjectId, ref: "Usuario", required: true},
     borrado: {type: Date, default: null}
   }, {
     versionKey: false,
