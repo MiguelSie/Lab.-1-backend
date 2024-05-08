@@ -1,5 +1,5 @@
 const { throwCustomError } = require("../utils/functions");
-const { createLibroMongo, getLibroMongo, updateLibroMongo, deleteLibroMongo } = require("./libro.actions");
+const { createLibroMongo, getLibroMongo, updateLibroMongo, deleteLibroMongo, getLibroIdMongo } = require("./libro.actions");
 
 async function readLibroConFiltros(query) {
     // const { genero, publicacion, editorial, autor, nombre } = query;
@@ -8,6 +8,13 @@ async function readLibroConFiltros(query) {
     const resultadosBusqueda = await getLibroMongo(query);
 
     return resultadosBusqueda;
+}
+
+async function readLibroPorId(id) {
+    // hacer llamado a base de datos con el filtro de tipo
+    const libro = await getLibroIdMongo(id);
+
+    return libro;
 }
 
 async function createLibro(datos) {
@@ -45,6 +52,7 @@ function deleteLibro(id) {
 
 module.exports = {
     readLibroConFiltros,
+    readLibroPorId,
     createLibro,
     updateLibro,
     deleteLibro

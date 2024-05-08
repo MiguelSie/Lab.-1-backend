@@ -1,17 +1,16 @@
 const mongoose = require("mongoose");
 
 const schemaLibro = new mongoose.Schema({
-    genero: {type: String},
-    publicacion: {type: Date, required: true}, //Podría no ser required?
-    editorial: {type: String}, 
-    autor: {type: String, required: true}, //Podría no ser required?
+    genero: {type: String, required: true},
+    publicacion: {type: Date, required: true}, 
+    editorial: {type: String, required: true}, 
+    autor: {type: String, required: true}, 
     nombre: {type: String, required: true},
-    creacion: {type: Date, default: Date.now},
-    actualizacion: {type: Date, default: Date.now},
+    // Añadir campo de id del creador
     borrado: {type: Date, default: null}
   }, {
     versionKey: false,
-    //Posiblemente activar los timestamps y quitar las fechas de creacion y actualizacion
+    timestamps: true,
 });
   
 const Model = mongoose.model('Libro', schemaLibro);

@@ -15,6 +15,8 @@ app.get("/", (req,res) => {
 const rutasLibro = require("./libro/libro.route")
 app.use('/libro', rutasLibro);
 
+const rutasUsuario = require("./usuario/usuario.route")
+app.use('/usuario', rutasUsuario);
 
 // aqui va la connection string VVVVV
 mongoose.connect('mongodb://localhost:27017/myapp');

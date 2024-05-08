@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const { readLibroConFiltros, createLibro, updateLibro, deleteLibro } = require("./libro.controller");
+const { readLibroConFiltros, readLibroPorId, createLibro, updateLibro, deleteLibro } = require("./libro.controller");
 const { respondWithError } = require('../utils/functions');
 
 async function GetLibros(req, res) {
@@ -11,15 +11,26 @@ async function GetLibros(req, res) {
             res.status(404).json({
                 mensaje: "No se encontraron resultados. 😢"
             })
+        } else{
+            res.status(200).json({
+                ...resultadosBusqueda
+            })
         }
-        res.status(200).json({
-            ...resultadosBusqueda
-        })
     } catch(e) {
-        res.status(500).json({msg: ""})
+        res.status(500).json({msg: ""});
     }
 }
 
+async function GetLibro(req, res) {
+    try {
+        const libro = await readLibroPorId(req.params.id);
+        res.status(200).json(libro)
+    } catch(e) {
+        res.status(500).json({msg: ""});
+    }
+}
+
+// Recuerda añadir que se necesita el id del usuario que crea el libro
 async function PostLibro(req, res) {
     try {
         // llamada a controlador con los datos
@@ -29,7 +40,7 @@ async function PostLibro(req, res) {
             mensaje: "Exito. 👍"
         })
     } catch(e) {
-        respondWithError(res, e);
+        res.status(500).json({error: e});
     }
 }
 
@@ -40,10 +51,10 @@ async function PatchLibros(req, res) {
         updateLibro(req.body);
 
         res.status(200).json({
-            mensaje: "Exito. 👍"
+            mensaje: "Exito. 👍" 
         })
     } catch(e) {
-        respondWithError(res, e);
+        res.status(500).json({error: e});
     }
 }
 
@@ -51,20 +62,17 @@ async function PatchLibros(req, res) {
 async function DeleteLibros(req, res) {
     try {
         // llamada a controlador con los datos
-        libro = deleteLibro(req.params.id);
-        if (libro === null || libro.length === 0) {
-            res.status(404).json({
-                mensaje: "No se encontro el libro. 😢"
-            })
-        }
+        deleteLibro(req.params.id);
+
         res.status(200).json({
             mensaje: "Exito. 👍"
         })
     } catch(e) {
-        respondWithError(res, e);
+        res.status(500).json({error: e});
     }
 }
 
+router.get("/:id", GetLibro);
 router.get("/", GetLibros);
 router.post("/", PostLibro);
 router.patch("/", PatchLibros);
