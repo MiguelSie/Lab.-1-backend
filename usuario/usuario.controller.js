@@ -1,4 +1,4 @@
-const { createUsuarioMongo, loginUsuarioMongo, getUsuarioIdMongo, updateUsuarioMongo } = require("./usuario.actions");
+const { createUsuarioMongo, loginUsuarioMongo, getUsuarioIdMongo, updateUsuarioMongo, deleteUsuarioMongo } = require("./usuario.actions");
 const bcrypt = require("bcrypt");
 
 async function createUsuario(datos) {
@@ -29,13 +29,20 @@ async function readUsuarioPorId(id) {
 async function updateUsuario(datos, idUsuario) {
     // hacer llamado a base de datos con el filtro de tipo
     const usuarioAct = updateUsuarioMongo(datos, idUsuario);
-
     return usuarioAct;
+}
+
+async function deleteUsuario(id) {
+
+    // hacer llamado a base de datos con el filtro de tipo
+    const usuarioElim = deleteUsuarioMongo(id);
+    return usuarioElim;
 }
 
 module.exports = {
     createUsuario,
     loginUsuario,
     readUsuarioPorId,
-    updateUsuario
+    updateUsuario,
+    deleteUsuario
 };

@@ -4,7 +4,7 @@ async function readLibroConFiltros(query) {
     // const { genero, publicacion, editorial, autor, nombre } = query;
 
     // hacer llamado a base de datos con el filtro de tipo
-    
+
     const resultadosBusqueda = await getLibroMongo(query);
 
     return resultadosBusqueda;
@@ -13,7 +13,6 @@ async function readLibroConFiltros(query) {
 async function readLibroPorId(id) {
     // hacer llamado a base de datos con el filtro de tipo
     const libro = await getLibroIdMongo(id);
-
     return libro;
 }
 
@@ -29,7 +28,6 @@ async function createLibro(id, datos) {
     // hacer llamado a base de datos con el filtro de tipo
 
     const libroCreado = await createLibroMongo(id, datos);
-
     return libroCreado;
 }
 
@@ -39,7 +37,6 @@ function updateLibro(datos, idUsuario) {
 
     // hacer llamado a base de datos con el filtro de tipo
     const libroAct = updateLibroMongo(_id, cambios, idUsuario);
-
     return libroAct;
 }
 
@@ -47,7 +44,6 @@ function deleteLibro(id, idUsuario) {
 
     // hacer llamado a base de datos con el filtro de tipo
     const libroElim = deleteLibroMongo(id, idUsuario);
-
     return libroElim;
 }
 

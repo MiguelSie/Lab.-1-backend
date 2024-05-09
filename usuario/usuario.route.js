@@ -44,11 +44,21 @@ async function patchUsuario(req, res) {
     }
 }
 
-
+async function delUsuario(req, res) {
+    try {
+        await deleteUsuario(req.usuario._id);
+        res.status(200).json({
+            mensaje: "Exito. 👍"
+        })
+    } catch(e) {
+        res.status(500).json({error: e});
+    }
+}
 
 router.post("/", postUsuario);
 router.post("/login", login);
 router.get("/:id", authenticateToken, getUsuario);
 router.patch("/", authenticateToken, patchUsuario);
+router.delete("/", authenticateToken, delUsuario);
 
 module.exports = router;

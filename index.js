@@ -13,7 +13,7 @@ app.get("/", (req,res) => {
     res.status(200).json({});
 })
 
-
+// Implementar que retorne status 500 si se intenta modificar o eliminar un libro siendo una id de libro diferente a la del documento
 const rutasLibro = require("./libro/libro.route")
 app.use('/libro', rutasLibro);
 

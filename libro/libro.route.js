@@ -44,7 +44,7 @@ async function PostLibro(req, res) {
     }
 }
 
-// Implementar que retorne status 500 si se intenta modificar siendo una id de libro diferente a la del modelo
+// Validar que si no se modificó (ej: estaba borrado) avise que no se pudo modificar
 async function PatchLibros(req, res) {
     try {
         // llamada a controlador con los datos
@@ -62,7 +62,6 @@ async function DeleteLibros(req, res) {
     try {
         // llamada a controlador con los datos
         deleteLibro(req.params.id, req.usuario._id);
-
         res.status(200).json({
             mensaje: "Exito. 👍"
         })
