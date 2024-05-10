@@ -41,9 +41,46 @@ async function createPedidoMongo(id, libros) {
     return pedidoCreado;
 }
 
+async function updatePedidoMongo(id, estado, idUsuario) {
+    const pedido = await Pedido.findOne({_id: id, estado: "En proceso"});
+    if (!pedido) {
+        throw new Error("No se pudo modificar el pedido.")
+    }
+    if (pedido.idBuyer.toString() === idUsuario.toString() && estado === "Cancelado") {
+        pedido.estado = estado;
+        await pedido.save();
+        return pedido;
+    } else if (pedido.idSeller.toString() === idUsuario.toString() && (estado === "Completado" || estado === "Cancelado")) {
+        pedido.estado = estado;
+        await pedido.save();
+        if (estado === "Completado") {
+            const libros = await Libro.find({_id: {$in: pedido.idBooks}});
+            for (let i = 0; i < libros.length; i++) {
+                libros[i].borrado = Date.now();
+                await libros[i].save();
+            }
+        }
+        return pedido;
+    } else {
+        throw new Error("No se pudo modificar el pedido.")
+    }
+}
+
+async function deletePedidoMongo(id, idUsuario) {
+    const pedido = await Pedido.findOne({_id: id});
+    if ((pedido.idSeller.toString() === idUsuario.toString() || pedido.idBuyer.toString() === idUsuario.toString()) && pedido.estado === "En proceso"){
+        pedido.estado = "Cancelado";
+        await pedido.save();
+        return pedido;
+    } else {
+        throw new Error("No se pudo eliminar el pedido.")
+    }
+}
+
 module.exports = {
     getPedidoMongo,
     getPedidoIdMongo,
     createPedidoMongo,
-
+    updatePedidoMongo,
+    deletePedidoMongo
 }

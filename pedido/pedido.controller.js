@@ -16,9 +16,21 @@ async function createPedido(id, datos) {
     return pedidoCreado;
 }
 
+async function updatePedido(datos, idUsuario) {
+    const { _id, estado } = datos;
+    const pedidoAct = await updatePedidoMongo(_id, estado, idUsuario);
+    return pedidoAct;
+}
+
+async function deletePedido(id, idUsuario) {
+    const pedidoElim = await deletePedidoMongo(id, idUsuario);
+    return pedidoElim;
+}
+
 module.exports = {
     readPedidoConFiltros,
     readPedidoPorId,
     createPedido,
-
+    updatePedido,
+    deletePedido
 }
