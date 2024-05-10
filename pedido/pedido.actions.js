@@ -1,0 +1,49 @@
+const Pedido = require("./pedido.model")
+const Libro = require("../libro/libro.model")
+const { getLibroIdMongo } = require("../libro/libro.actions");
+
+async function getPedidoMongo(filtros, id) {
+    const cantidadPedidosAsBuyer = await Pedido.countDocuments({...filtros, borrado: null, idBuyer: id});
+    const pedidosFiltradosAsBuyer = await Pedido.find({...filtros, borrado: null, idBuyer: id});
+    const cantidadPedidosAsSeller = await Pedido.countDocuments({...filtros, borrado: null, idSeller: id});
+    const pedidosFiltradosAsSeller = await Pedido.find({...filtros, borrado: null, idSeller: id});
+
+    return {
+        pedidosBuyer: pedidosFiltradosAsBuyer,
+        cPedidosBuyer: cantidadPedidosAsBuyer,
+        pedidosSeller: pedidosFiltradosAsSeller,
+        cPedidosSeller: cantidadPedidosAsSeller
+    };
+}
+
+async function getPedidoIdMongo(id, idUsuario) {
+    const pedido = await Pedido.findOne({_id: id, idBuyer: idUsuario});
+    if (!pedido) {
+        return await Pedido.findOne({_id: id, idSeller: idUsuario});
+    }
+    return pedido;
+}
+
+async function createPedidoMongo(id, libros) {
+    const primerLibro = await getLibroIdMongo(libros[0]);
+    const idSeller = primerLibro.idUsuario;
+    if (id.toString() === idSeller.toString()) {
+        throw new Error("No se puede realizar un pedido a uno mismo.")
+    }
+    const librosBuscados = await Libro.find({_id: {$in : libros}});
+    for (let i = 0; i < librosBuscados.length; i++) {
+        if (librosBuscados[i].idUsuario.toString() !== librosBuscados[0].idUsuario.toString()) {
+            throw new Error("No se puede realizar un pedido a un vendedor diferente.")
+        }
+    }
+    
+    const pedidoCreado = await Pedido.create({idBooks: libros, idBuyer: id, idSeller: idSeller});
+    return pedidoCreado;
+}
+
+module.exports = {
+    getPedidoMongo,
+    getPedidoIdMongo,
+    createPedidoMongo,
+
+}

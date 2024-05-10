@@ -32,18 +32,18 @@ async function createLibro(id, datos) {
 }
 
 
-function updateLibro(datos, idUsuario) {
+async function updateLibro(datos, idUsuario) {
     const { _id, ...cambios } = datos;
 
     // hacer llamado a base de datos con el filtro de tipo
-    const libroAct = updateLibroMongo(_id, cambios, idUsuario);
+    const libroAct = await updateLibroMongo(_id, cambios, idUsuario);
     return libroAct;
 }
 
-function deleteLibro(id, idUsuario) {
+async function deleteLibro(id, idUsuario) {
 
     // hacer llamado a base de datos con el filtro de tipo
-    const libroElim = deleteLibroMongo(id, idUsuario);
+    const libroElim = await deleteLibroMongo(id, idUsuario);
     return libroElim;
 }
 

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
-const { readLibroConFiltros, readLibroPorId, createLibro, updateLibro, deleteLibro } = require("./libro.controller");
 const authenticateToken = require('../utils/authToken');
+const { readLibroConFiltros, readLibroPorId, createLibro, updateLibro, deleteLibro } = require("./libro.controller");
 
 async function GetLibros(req, res) {
     try {
@@ -44,11 +44,10 @@ async function PostLibro(req, res) {
     }
 }
 
-// Validar que si no se modificó (ej: estaba borrado) avise que no se pudo modificar
 async function PatchLibros(req, res) {
     try {
         // llamada a controlador con los datos
-        updateLibro(req.body, req.usuario._id);
+        await updateLibro(req.body, req.usuario._id);
         res.status(200).json({
             mensaje: "Exito. 👍" 
         })
@@ -61,7 +60,7 @@ async function PatchLibros(req, res) {
 async function DeleteLibros(req, res) {
     try {
         // llamada a controlador con los datos
-        deleteLibro(req.params.id, req.usuario._id);
+        await deleteLibro(req.params.id, req.usuario._id);
         res.status(200).json({
             mensaje: "Exito. 👍"
         })

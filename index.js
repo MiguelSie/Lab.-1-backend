@@ -20,6 +20,9 @@ app.use('/libro', rutasLibro);
 const rutasUsuario = require("./usuario/usuario.route")
 app.use('/usuario', rutasUsuario);
 
+const rutasPedido = require("./pedido/pedido.route")
+app.use('/pedido', rutasPedido)
+
 // aqui va la connection string VVVVV
 mongoose.connect('mongodb://localhost:27017/myapp');
 

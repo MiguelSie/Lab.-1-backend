@@ -35,10 +35,8 @@ async function getUsuario(req, res) {
 
 async function patchUsuario(req, res) {
     try {
-        await updateUsuario(req.body, req.usuario._id);
-        res.status(200).json({
-            mensaje: "Exito. 👍"
-        })
+        const usuarioActualizado = await updateUsuario(req.body, req.usuario._id);
+        res.status(200).json(usuarioActualizado)
     } catch(e) {
         res.status(500).json({error: e});
     }

@@ -17,12 +17,18 @@ async function getUsuarioIdMongo(id) {
 
 async function updateUsuarioMongo(cambios, idUsuario) {
     const resultado = await Usuario.findOneAndUpdate({_id: idUsuario, borrado: null}, cambios, {new: true});
+    if (!resultado) {
+        throw new Error("Usuario no encontrado");
+    }
     return resultado
 }
 
 async function deleteUsuarioMongo(id) {
     const update = { borrado: Date.now() };
-    const resultado = await Usuario.findOneAndUpdate({_id : id, borrado: null}, update, {new: true,});
+    const resultado = await Usuario.findOneAndUpdate({_id : id, borrado: null}, update, {new: true});
+    if (!resultado) {
+        throw new Error("Usuario no encontrado");
+    }
     return resultado;
 
 }

@@ -25,12 +25,18 @@ async function createLibroMongo(id, datos) {
 
 async function updateLibroMongo(id, cambios, idUsuario) {
     const resultado = await Libro.findOneAndUpdate({_id: id, borrado: null, idUsuario: idUsuario}, cambios, {new: true});
+    if (!resultado) {
+        throw new Error("No se pudo modificar el libro.")
+    }
     return resultado
 }
 
 async function deleteLibroMongo(id, idUsuario) {
     const update = { borrado: Date.now() };
     const resultado = await Libro.findOneAndUpdate({_id : id, borrado: null, idUsuario: idUsuario}, update, {new: true,});
+    if (!resultado) {
+        throw new Error("No se pudo eliminar el libro.")
+    }
     return resultado;
 }
 

@@ -16,26 +16,25 @@ async function loginUsuario(datos) {
         return usuarioEncontrado;
     } else {
         throw new Error("Usuario o contraseña incorrectos");
-    
     }
 }
 
 async function readUsuarioPorId(id) {
     // hacer llamado a base de datos con el filtro de tipo
-    const usuario = getUsuarioIdMongo(id);
+    const usuario = await getUsuarioIdMongo(id);
     return usuario;
 }
 
 async function updateUsuario(datos, idUsuario) {
     // hacer llamado a base de datos con el filtro de tipo
-    const usuarioAct = updateUsuarioMongo(datos, idUsuario);
+    const usuarioAct = await updateUsuarioMongo(datos, idUsuario);
     return usuarioAct;
 }
 
 async function deleteUsuario(id) {
 
     // hacer llamado a base de datos con el filtro de tipo
-    const usuarioElim = deleteUsuarioMongo(id);
+    const usuarioElim = await deleteUsuarioMongo(id);
     return usuarioElim;
 }
 
