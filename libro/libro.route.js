@@ -40,7 +40,7 @@ async function PostLibro(req, res) {
             mensaje: "Exito. 👍"
         })
     } catch(e) {
-        res.status(500).json({error: e});
+        res.status(500).json({error: e.message});
     }
 }
 
@@ -52,7 +52,7 @@ async function PatchLibros(req, res) {
             mensaje: "Exito. 👍" 
         })
     } catch(e) {
-        res.status(500).json({error: e});
+        res.status(500).json({error: e.message});
     }
 }
 
@@ -65,7 +65,7 @@ async function DeleteLibros(req, res) {
             mensaje: "Exito. 👍"
         })
     } catch(e) {
-        res.status(500).json({error: e});
+        res.status(500).json({error: e.message});
     }
 }
 

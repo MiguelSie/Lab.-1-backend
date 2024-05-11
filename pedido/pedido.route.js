@@ -35,7 +35,7 @@ async function PostPedido(req, res) {
         const pedido = await createPedido(req.usuario._id, req.body);
         res.status(200).json(pedido)
     } catch(e) {
-        res.status(500).json({error: e});
+        res.status(500).json({error: e.message});
     }
 }
 
@@ -44,7 +44,7 @@ async function PatchPedidos(req, res) {
         const pedidoAct = await updatePedido(req.body, req.usuario._id);
         res.status(200).json(pedidoAct)
     } catch(e) {
-        res.status(500).json({error: e});
+        res.status(500).json({error: e.message});
     }
 }
 
@@ -55,7 +55,7 @@ async function DeletePedidos(req, res) {
             mensaje: "Exito. 👍"
         })
     } catch(e) {
-        res.status(500).json({error: e});
+        res.status(500).json({error: e.message});
     }
 }
 
